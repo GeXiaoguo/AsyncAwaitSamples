@@ -81,6 +81,34 @@ namespace UnitTests
             PrintThreadAmbientInfo("state2");
         }
 
+        /// <summary>
+        /// Example of running thread sensitive code( e.g. reading CurrentCulture) after await
+        /// The current culture after await can not be determined statically
+        /// </summary>
+        /// <returns></returns>
+        [Test]
+        public async Task CurrentCulture_Can_not_be_determined()
+        {
+            var rand = new Random(DateTime.Now.Millisecond);
+
+            CultureInfo ci = new CultureInfo("fr-FR");
+            Thread.CurrentThread.CurrentCulture = ci;
+
+            for (int i = 0; i < 10; i++)
+            {
+                Thread.CurrentThread.CurrentCulture = ci;
+
+                PrintThreadAmbientInfo("state0");
+
+                var task = DoWorkAsyncFor100ms();
+                Thread.Sleep(rand.Next(1, 200));
+                await task;
+
+                PrintThreadAmbientInfo("state1");
+            }
+        }
+
+
         private static Task<int> DoWorkAsyncFor100ms()
         {
             var task = Task.Run(() =>
