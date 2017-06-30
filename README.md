@@ -2,7 +2,7 @@
 
 - AsyncAwait_ContinueOn_ThreadPoolThread()  
 - AsyncAwait_ContinueOn_CallerThread  
-  Demonstrates on what thread the task continuation is run
+  Demonstrates the running thread of the task continuation
 
 
 - CurrentCulture_IsNot_Flowed_To_NewThread  
