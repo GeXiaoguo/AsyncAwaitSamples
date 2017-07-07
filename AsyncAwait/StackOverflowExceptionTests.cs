@@ -45,6 +45,8 @@ namespace AsyncAwait
         {
             await Task.Yield();
 
+            await Task.Run(() => Thread.Sleep(100));
+
             if (index < max)
             {
                 index++;
